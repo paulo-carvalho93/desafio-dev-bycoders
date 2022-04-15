@@ -5,6 +5,8 @@ services:
     container_name: pg
     restart: always
     environment:
+      POSTGRES_DB: bycoders
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: docker
     ports:
       - 5432:5432

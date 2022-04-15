@@ -1,5 +1,4 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
-import { Store } from "./Store";
 
 @Entity()
 export class Transaction {
@@ -16,15 +15,17 @@ export class Transaction {
   cpf: string;
 
   @Column()
-  data: Date;
+  cartao: string;
 
   @Column()
-  cartao: string;
+  data: Date;
 
   @Column()
   hora: string;
 
-  @ManyToOne(() => Store, () => Transaction, { eager: true })
-  @JoinColumn({ name: 'store_id' })
-  loja: Store;
+  @Column()
+  dono: string;
+
+  @Column()
+  loja: string;
 }

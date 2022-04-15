@@ -1,7 +1,7 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
-export class Transaction {
+@Entity('transactions')
+class Transaction {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -29,3 +29,5 @@ export class Transaction {
   @Column()
   loja: string;
 }
+
+export default Transaction;

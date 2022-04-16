@@ -147,7 +147,7 @@ const Dashboard: React.FC = () => {
             </thead>
 
             <tbody>
-              {transactions.filter(transaction => {
+              {transactions?.filter(transaction => {
                 if (searchTerm === '') {
                   return transaction;
                 } else if (transaction.loja.toLowerCase().includes(searchTerm.toLowerCase())) {

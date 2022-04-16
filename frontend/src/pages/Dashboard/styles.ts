@@ -6,7 +6,7 @@ interface CardProps {
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 1120px;
+  max-width: 1168px;
   margin: 0 auto;
   padding: 40px 20px;
 `;
@@ -48,7 +48,7 @@ export const Card = styled.div`
 `;
 
 export const TableContainer = styled.section`
-  margin-top: 64px;
+  margin-top: 10px;
 
   table {
     width: 100%;
@@ -64,7 +64,6 @@ export const TableContainer = styled.section`
     }
 
     td {
-      width: 145px;
       padding: 20px 32px;
       border: 0;
       background: #fff;
@@ -92,5 +91,30 @@ export const TableContainer = styled.section`
     td:last-child {
       border-radius: 0 8px 8px 0;
     }
+  }
+`;
+
+export const SearchContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+export const SearchInput = styled.input`
+  height: 40px;
+  width: 250px;
+  font-size: 14px;
+  color: #969cb3;
+  border: 1px solid #dde4ff;
+  border-radius: 6px;
+  margin-top: 20px;
+  padding: 10px;
+  display: flex;
+
+  &::placeholder {
+    opacity: 0.5;
+  }
+
+  &:focus {
+    outline-color: #a0afeb;
   }
 `;

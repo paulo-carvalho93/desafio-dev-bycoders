@@ -9,9 +9,11 @@ import total from '../../assets/total.svg';
 import api from '../../services/api';
 
 import formatValue from '../../utils/formatValue';
+import formatCpf from '../../utils/formatCPF';
 
-import { Container, CardContainer, Card, TableContainer } from './styles';
+import { Container, CardContainer, Card, TableContainer, SearchContainer, SearchInput } from './styles';
 import { format } from 'date-fns';
+
 
 interface Transaction {
   id: string;
@@ -34,6 +36,7 @@ interface Balance {
 const Dashboard: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [balance, setBalance] = useState<Balance>({} as Balance);
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
     async function loadTransactions(): Promise<void> {
@@ -47,25 +50,7 @@ const Dashboard: React.FC = () => {
         }),
       );
 
-      const balanceCount = data.reduce((accumulator: Balance, { tipo, valor }: Transaction) => {
-        if (tipo === 'Boleto' || tipo === 'Financiamento' || tipo === 'Aluguel') {
-          accumulator.outcome += Number(valor);
-          accumulator.total -= Number(valor);
-        } else {
-          accumulator.income += Number(valor);
-          accumulator.total += Number(valor);
-        }
-
-        return accumulator;
-        },
-        {
-          income: 0,
-          outcome: 0,
-          total: 0,
-        },
-      );
-
-      console.log('Entrei', balanceCount)
+      const balanceCount = handleBalance(data);
 
       const balanceFormatted = {
         income: balanceCount.income,
@@ -79,6 +64,36 @@ const Dashboard: React.FC = () => {
 
     loadTransactions();
   }, []);
+
+  const handleBalance = (data: any) => {
+    const balanceCount = data.reduce((accumulator: Balance, { tipo, valor }: Transaction) => {
+      if (tipo === 'Boleto' || tipo === 'Financiamento' || tipo === 'Aluguel') {
+        accumulator.outcome += Number(valor);
+        accumulator.total -= Number(valor);
+      } else {
+        accumulator.income += Number(valor);
+        accumulator.total += Number(valor);
+      }
+
+      return accumulator;
+      },
+      {
+        income: 0,
+        outcome: 0,
+        total: 0,
+      },
+    );
+
+    return balanceCount;
+  }
+
+  const handleTypeColorTransaction = (tipo: string) => {
+    if (tipo === 'Boleto' || tipo === 'Financiamento' || tipo === 'Aluguel') {
+      return 'outcome'
+    } else {
+      return 'income';
+    }
+  }
 
   return (
     <>
@@ -108,11 +123,20 @@ const Dashboard: React.FC = () => {
           </Card>
         </CardContainer>
 
+        <SearchContainer>
+          <SearchInput
+            type='text'
+            placeholder="Digite o nome de uma loja"
+            onChange={event => setSearchTerm(event.target.value)}
+          />
+        </SearchContainer>
+
         <TableContainer>
           <table>
             <thead>
               <tr>
                 <th>Loja</th>
+                <th>Dono</th>
                 <th>Tipo</th>
                 <th>Data</th>
                 <th>Valor</th>
@@ -123,13 +147,20 @@ const Dashboard: React.FC = () => {
             </thead>
 
             <tbody>
-              {transactions.map(transaction => (
+              {transactions.filter(transaction => {
+                if (searchTerm === '') {
+                  return transaction;
+                } else if (transaction.loja.toLowerCase().includes(searchTerm.toLowerCase())) {
+                  return transaction;
+                }
+              }).map(transaction => (
                 <tr key={transaction.id}>
                   <td className="title">{transaction.loja}</td>
-                  <td className={transaction.tipo}>{transaction.tipo}</td>
+                  <td>{transaction.dono}</td>
+                  <td>{transaction.tipo}</td>
                   <td>{transaction.data}</td>
-                  <td>{transaction.valor}</td>
-                  <td>{transaction.cpf}</td>
+                  <td className={handleTypeColorTransaction(transaction.tipo)}>{transaction.valor}</td>
+                  <td>{formatCpf(transaction.cpf)}</td>
                   <td>{transaction.cartao}</td>
                   <td>{transaction.hora}</td>
                 </tr>

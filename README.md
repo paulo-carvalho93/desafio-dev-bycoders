@@ -106,10 +106,20 @@ Rename the `.env.example` in the root directory to `.env` then just update with 
   # Start Web Project
   $ yarn dev:server # or npm dev:server
 ```
+**URL: http://localhost:3333**
 
 **FYI: You don't** need to run ```yarn dev:server``` if you are using docker-compose.**
 
 ### :computer: Web
+
+
+### .env
+Rename the `.env.example` in the root directory to `.env` then just update with your settings.
+
+|key|description|default
+|---|---|---
+|REACT_APP_API_URL|URL and Port number where the app will access the backend.|`http://localhost:3333`
+
 
 ```sh
   # API
@@ -120,7 +130,7 @@ Rename the `.env.example` in the root directory to `.env` then just update with 
   # Start Web Project
   $ yarn start # or npm start
 ```
-
+**URL: http://localhost:3000**
 
 ## Routes
 **Swagger: http://localhost:3333/docs/#/**

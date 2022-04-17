@@ -5,11 +5,11 @@
   <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/paulo-carvalho93/desafio-dev-bycoders">
 </p>
 
-Desafio ByCoders.
+**Desafio ByCoders**
 
 
 <p align="center">
-  <img alt="screenshot" width="650px" src="./.github/assets/bycoders_challenge.png" />
+  <img alt="screenshot" width="650px" src="./.github/assets/bycoders_challenge.jpg" />
 <p>
 
 </div>
@@ -49,7 +49,7 @@ The backend is using NodeJS with Express and Multer to upload the TXT file and i
 
 # :boom: How to run
 
-- ### **Prerequisites**
+- ### **Requirements**
 
   - It's **necessary** to have **[Node.js](https://nodejs.org/en/)** installed on the computer
   - It's **necessary** to have **[Git](https://git-scm.com/)** installed and configured on the computer
@@ -108,7 +108,7 @@ Rename the `.env.example` in the root directory to `.env` then just update with 
 ```
 **URL: http://localhost:3333**
 
-**FYI: You don't** need to run ```yarn dev:server``` if you are using docker-compose.**
+**FYI: You don't need to run ```yarn dev:server``` if you are using docker-compose.**
 
 ### :computer: Web
 

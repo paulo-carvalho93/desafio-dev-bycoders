@@ -40,6 +40,23 @@ describe('Transaction', () => {
     await mainConnection.close();
   });
 
+  it('should be able to list transactions', async () => {
+    await request(app).post('/transactions').send({
+      tipo: 'Financiamento',
+      valor: '1000',
+      cpf: '09620676017',
+      cartao: '4753****3153',
+      data: '2019-03-01T00:00:00.000Z',
+      hora: '15:34:53',
+      dono: 'PAULO CARVALHO',
+      loja: 'BAR DO JOÃO',
+    });
+
+    const response = await request(app).get('/transactions');
+
+    expect(response.body).toHaveLength(1);
+  });
+
   it('should be able to import transactions', async () => {
     const transactionsRepository = getRepository(Transaction);
 

@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { getCustomRepository } from "typeorm";
-import TransactionsRepository from "../repositories/TransactionsRepositories";
+import TransactionsRepository from "../repositories/TransactionsRepository";
 import { parseTransactionFile } from "../utils/parseTransactionFile";
 
 class ImportTransactionsService {

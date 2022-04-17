@@ -1,0 +1,289 @@
+{
+  "openapi":"3.0.2",
+  "info": {
+    "title":"Bycoders",
+    "version":"1.0"
+  },
+  "servers": [
+    {
+      "url":"http://localhost:3333/"
+    }
+  ],
+  "paths": {
+    "/transactions": {
+      "get": {
+        "tags": ["transactions"],
+        "responses": {
+          "200": {
+            "description": "Return transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transactions": {
+                      "type": "array",
+                      "items": {
+                        "title": "Transaction",
+                        "allOf": [
+                          {
+                            "$ref": "#/components/schemas/Transaction"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "transactions": [
+                    {
+                      "id": "5e524e59-09d8-4120-aaca-604f07027dba",
+                      "tipo": "Financiamento",
+                      "valor": "142",
+                      "cpf": "09620676017",
+                      "cartao": "4753****3153",
+                      "data": "2019-03-01T00:00:00.000Z",
+                      "hora": "15:34:53",
+                      "dono": "JOÃO MACEDO",
+                      "loja": "BAR DO JOÃO"
+                    },
+                    {
+                      "id": "91932ba6-f703-4c81-ac39-462ba48e9626",
+                      "tipo": "Recebimento Empréstimo",
+                      "valor": "132",
+                      "cpf": "55641815063",
+                      "cartao": "3123****7687",
+                      "data": "2019-03-01T00:00:00.000Z",
+                      "hora": "14:56:07",
+                      "dono": "MARIA JOSEFINA",
+                      "loja": "LOJA DO Ó - MATRIZ"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["transactions"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Transaction",
+                "required": [
+                  "tipo",
+                  "valor",
+                  "cpf",
+                  "cartao",
+                  "data",
+                  "hora",
+                  "dono",
+                  "loja"
+                ],
+                "properties": {
+                  "tipo": {
+                    "type": "string"
+                  },
+                  "valor": {
+                    "type": "number"
+                  },
+                  "cpf": {
+                    "type": "string"
+                  },
+                  "cartao": {
+                    "type": "string"
+                  },
+                  "data": {
+                    "type": "date"
+                  },
+                  "hora": {
+                    "type": "string"
+                  },
+                  "dono": {
+                    "type": "string"
+                  },
+                  "loja": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "tipo": "Financiamento",
+                "valor": "142",
+                "cpf": "09620676017",
+                "cartao": "4753****3153",
+                "data": "2019-03-01T00:00:00.000Z",
+                "hora": "15:34:53",
+                "dono": "JOÃO MACEDO",
+                "loja": "BAR DO PAULO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create a new transaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                },
+                "example": {
+                  "tipo": "Financiamento",
+                  "valor": 142,
+                  "cpf": "09620676017",
+                  "cartao": "4753****3153",
+                  "data": "2019-03-01T00:00:00.000Z",
+                  "hora": "15:34:53",
+                  "dono": "JOÃO MACEDO",
+                  "loja": "BAR DO PAULO",
+                  "id": "880094dd-269f-4cfc-92f0-f0a0fbf6a25b"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/import": {
+      "post": {
+        "tags": ["transactions"],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Import transactions from file",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "title": "Transaction",
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Transaction"
+                      }
+                    ]
+                  }
+                },
+                "example": [
+                  {
+                    "tipo": "Financiamento",
+                    "valor": 142,
+                    "cpf": "09620676017",
+                    "cartao": "4753****3153",
+                    "data": "2019-03-01",
+                    "hora": "15:34:53",
+                    "dono": "JOÃO MACEDO",
+                    "loja": "BAR DO JOÃO",
+                    "id": "a2621f49-e6a4-417f-8009-5466ba38b786"
+                  },
+                  {
+                    "tipo": "Recebimento Empréstimo",
+                    "valor": 132,
+                    "cpf": "55641815063",
+                    "cartao": "3123****7687",
+                    "data": "2019-03-01",
+                    "hora": "14:56:07",
+                    "dono": "MARIA JOSEFINA",
+                    "loja": "LOJA DO Ó - MATRIZ",
+                    "id": "be495e35-65bf-4ef1-b117-e65ec1b19c5b"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Arquivo inválido!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Arquivo inválido! Por favor, tente novamente!"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Transaction": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string"
+          },
+          "valor": {
+            "type": "number"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "cartao": {
+            "type": "string"
+          },
+          "data": {
+            "type": "date"
+          },
+          "hora": {
+            "type": "string"
+          },
+          "dono": {
+            "type": "string"
+          },
+          "loja": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

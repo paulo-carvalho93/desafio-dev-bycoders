@@ -9,7 +9,7 @@ export default class UploadTransactionsController {
     response: Response,
   ): Promise<Response> {
     const importTransactions = new ImportTransactionsService();
-    if (request.file) {
+    if (request.file && request.file.mimetype === 'text/plain') {
       const transactions = await importTransactions.execute(
         request.file, response
       );
@@ -17,6 +17,6 @@ export default class UploadTransactionsController {
       return response.status(201).json(transactions);
     }
 
-    throw new AppError('Arquivo invalido!');
+    throw new AppError('Arquivo inválido! Por favor, tente novamente!');
   }
 }

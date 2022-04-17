@@ -1,85 +1,152 @@
-# Desafio programação - para vaga desenvolvedor
+<div align="center">
 
-Por favor leiam este documento do começo ao fim, com muita atenção.
-O intuito deste teste é avaliar seus conhecimentos técnicos em programação.
-O teste consiste em parsear [este arquivo de texto(CNAB)](https://github.com/ByCodersTec/desafio-ruby-on-rails/blob/master/CNAB.txt) e salvar suas informações(transações financeiras) em uma base de dados a critério do candidato.
-Este desafio deve ser feito por você em sua casa. Gaste o tempo que você quiser, porém normalmente você não deve precisar de mais do que algumas horas.
+<p align="center">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/paulo-carvalho93/desafio-dev-bycoders">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/paulo-carvalho93/desafio-dev-bycoders">
+</p>
 
-# Instruções de entrega do desafio
+Desafio ByCoders.
 
-1. Primeiro, faça um fork deste projeto para sua conta no Github (crie uma se você não possuir).
-2. Em seguida, implemente o projeto tal qual descrito abaixo, em seu clone local.
-3. Por fim, envie via email o projeto ou o fork/link do projeto para seu contato Bycoders_ com cópia para rh@bycoders.com.br.
 
-# Descrição do projeto
+<p align="center">
+  <img alt="screenshot" width="650px" src="./.github/assets/bycoders_challenge.png" />
+<p>
 
-Você recebeu um arquivo CNAB com os dados das movimentações finanaceira de várias lojas.
-Precisamos criar uma maneira para que estes dados sejam importados para um banco de dados.
+</div>
 
-Sua tarefa é criar uma interface web que aceite upload do [arquivo CNAB](https://github.com/ByCodersTec/desafio-ruby-on-rails/blob/master/CNAB.txt), normalize os dados e armazene-os em um banco de dados relacional e exiba essas informações em tela.
+### Features
 
-**Sua aplicação web DEVE:**
+- Possibility to include different types of transactions and check out the incomes, outcomes, and balance.
+- Allow the import of a TXT file to generate new records in the database.
 
-1. Ter uma tela (via um formulário) para fazer o upload do arquivo(pontos extras se não usar um popular CSS Framework )
-2. Interpretar ("parsear") o arquivo recebido, normalizar os dados, e salvar corretamente a informação em um banco de dados relacional, **se atente as documentações** que estão logo abaixo.
-3. Exibir uma lista das operações importadas por lojas, e nesta lista deve conter um totalizador do saldo em conta
-4. Ser escrita na sua linguagem de programação de preferência
-5. Ser simples de configurar e rodar, funcionando em ambiente compatível com Unix (Linux ou Mac OS X). Ela deve utilizar apenas linguagens e bibliotecas livres ou gratuitas.
-6. Git com commits atomicos e bem descritos
-7. PostgreSQL, MySQL ou SQL Server
-8. Ter testes automatizados
-9. Docker compose (Pontos extras se utilizar)
-10. Readme file descrevendo bem o projeto e seu setup
-11. Incluir informação descrevendo como consumir o endpoint da API
+### Summary
 
-**Sua aplicação web não precisa:**
+- [Technology](#rocket-technology)
+  - [Application](#computer-web)
+- [How to run](#boom-how-to-run)
+  - [Backend](#hammer-backend)
+  - [Web](#computer-web-1)
 
-1. Lidar com autenticação ou autorização (pontos extras se ela fizer, mais pontos extras se a autenticação for feita via OAuth).
-2. Ser escrita usando algum framework específico (mas não há nada errado em usá-los também, use o que achar melhor).
-3. Documentação da api.(Será um diferencial e pontos extras se fizer)
 
-# Documentação do CNAB
+### :rocket: Technology
 
-| Descrição do campo  | Inicio | Fim | Tamanho | Comentário
-| ------------- | ------------- | -----| ---- | ------
-| Tipo  | 1  | 1 | 1 | Tipo da transação
-| Data  | 2  | 9 | 8 | Data da ocorrência
-| Valor | 10 | 19 | 10 | Valor da movimentação. *Obs.* O valor encontrado no arquivo precisa ser divido por cem(valor / 100.00) para normalizá-lo.
-| CPF | 20 | 30 | 11 | CPF do beneficiário
-| Cartão | 31 | 42 | 12 | Cartão utilizado na transação 
-| Hora  | 43 | 48 | 6 | Hora da ocorrência atendendo ao fuso de UTC-3
-| Dono da loja | 49 | 62 | 14 | Nome do representante da loja
-| Nome loja | 63 | 81 | 19 | Nome da loja
+<div align="center">
 
-# Documentação sobre os tipos das transações
+![react](https://img.shields.io/badge/react-61dafb?&logoColor=000&style=for-the-badge&logo=react)
+![nodejs](https://img.shields.io/badge/node.js-339933?&logoColor=FFF&style=for-the-badge&logo=node.js)
+![typescript](https://img.shields.io/badge/typescript-007acc?&logoColor=FFF&style=for-the-badge&logo=typescript)
+![styledcomponents](https://img.shields.io/badge/styled_components-DB7093?&logoColor=FFF&style=for-the-badge&logo=styled-components)
+</div>
 
-| Tipo | Descrição | Natureza | Sinal |
-| ---- | -------- | --------- | ----- |
-| 1 | Débito | Entrada | + |
-| 2 | Boleto | Saída | - |
-| 3 | Financiamento | Saída | - |
-| 4 | Crédito | Entrada | + |
-| 5 | Recebimento Empréstimo | Entrada | + |
-| 6 | Vendas | Entrada | + |
-| 7 | Recebimento TED | Entrada | + |
-| 8 | Recebimento DOC | Entrada | + |
-| 9 | Aluguel | Saída | - |
 
-# Avaliação
+### :computer: Application
 
-Seu projeto será avaliado de acordo com os seguintes critérios.
+The application was developed with [Typescript](https://www.typescriptlang.org/) using the framework [ReactJS](https://reactjs.org/) and [Styled-Components](https://styled-components.com/) for visual proposes.
 
-1. Sua aplicação preenche os requerimentos básicos?
-2. Você documentou a maneira de configurar o ambiente e rodar sua aplicação?
-3. Você seguiu as instruções de envio do desafio?
-4. Qualidade e cobertura dos testes unitários.
-
-Adicionalmente, tentaremos verificar a sua familiarização com as bibliotecas padrões (standard libs), bem como sua experiência com programação orientada a objetos a partir da estrutura de seu projeto.
-
-# Referência
-
-Este desafio foi baseado neste outro desafio: https://github.com/lschallenges/data-engineering
+The backend is using NodeJS with Express and Multer to upload the TXT file and insert new records into the database.
 
 ---
 
-Boa sorte!
+# :boom: How to run
+
+- ### **Prerequisites**
+
+  - It's **necessary** to have **[Node.js](https://nodejs.org/en/)** installed on the computer
+  - It's **necessary** to have **[Git](https://git-scm.com/)** installed and configured on the computer
+  - Also, it's **necessary** to have a package manager either **[NPM](https://www.npmjs.com/)** or **[Yarn](https://yarnpkg.com/)**.
+  - Finally, it is essential to have Docker installed to run database Postgres.
+
+
+Clone the repository:
+
+```sh
+  $ git clone https://github.com/paulo-carvalho93/desafio-dev-bycoders.git
+```
+
+
+### :hammer: Backend
+
+## Configuring Docker
+The application use just [Postgres](https://www.postgresql.org/).  For the fastest setup is recommended to use [docker-compose](https://docs.docker.com/compose/), you just need to up all services:
+
+```
+$ cd backend
+$ docker-compose up -d
+```
+
+> Then create one database called: `tests` (in case you would like to run the tests).
+
+#### Migrations
+Remember to run the database migrations:
+```
+$ yarn typeorm migration:run
+```
+> See more information on [TypeORM Migrations](https://typeorm.io/#/migrations).
+
+
+### .env
+Rename the `.env.example` in the root directory to `.env` then just update with your settings.
+
+|key|description|default
+|---|---|---
+|APP_PORT|Port number where the app will run.|`3333`
+|NODE_ENV|App environment. The typeORM's database choice rely on this key value, so if the environment is `test` the database used will be `tests` otherwise the `POSTGRES_DATABASE` will set the database name.|`development`
+|POSTGRES_HOST|Postgres host.|`pg`
+|POSTGRES_PORT|Postgres port.|`5432`
+|POSTGRES_USER|Postgres user.| `postgres`
+|POSTGRES_PASSWORD|Postgres password.| `docker`
+|POSTGRES_DATABASE|Application's database name.| `bycoders`
+
+```sh
+  # API
+  $ cd backend
+  # Installing project dependencies.
+  $ yarn # or npm install
+
+  # Start Web Project
+  $ yarn dev:server # or npm dev:server
+```
+
+**FYI: You don't** need to run ```yarn dev:server``` if you are using docker-compose.**
+
+### :computer: Web
+
+```sh
+  # API
+  $ cd frontend
+  # Installing project dependencies.
+  $ yarn # or npm install
+
+  # Start Web Project
+  $ yarn start # or npm start
+```
+
+
+## Routes
+**Swagger: http://localhost:3333/docs/#/**
+
+|route|HTTP Method|params|description
+|:---|:---:|:---:|:---:
+|`/transactions`|GET| - |Return transactions.
+|`/transactions`|POST|More details about the body below .|Create a new transaction.
+|`/transactions/import`|POST|Multipart payload with a `file` field with a `txt` file.|Import transactions from file.
+
+### Requests
+* `POST /transactions`
+
+Request body:
+```json
+{
+  "tipo": "Financiamento",
+  "valor": "142",
+  "cpf": "09620676017",
+  "cartao": "4753****3153",
+  "data": "2019-03-01T00:00:00.000Z",
+  "hora": "15:34:53",
+  "dono": "PAULO CARVALHO",
+  "loja": "BAR DO PAULO"
+}
+```
+
+
+

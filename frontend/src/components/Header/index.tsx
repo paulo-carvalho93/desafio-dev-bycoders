@@ -20,14 +20,17 @@ const Header: React.FC<HeaderProps> = ({ size }: HeaderProps) => {
           <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
             Listagem
           </Link>
-          <Link to="/import" className={location.pathname === '/import' ? 'active' : ''}>
+          <Link
+            to="/import"
+            className={location.pathname === '/import' ? 'active' : ''}
+          >
             Importar
           </Link>
         </nav>
       </header>
     </Container>
   );
-}
+};
 
 Header.defaultProps = {
   size: 'large',

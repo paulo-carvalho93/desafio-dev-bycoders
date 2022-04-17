@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import { format } from 'date-fns';
 import Header from '../../components/Header';
 
 import income from '../../assets/income.svg';
@@ -11,9 +12,14 @@ import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
 import formatCpf from '../../utils/formatCPF';
 
-import { Container, CardContainer, Card, TableContainer, SearchContainer, SearchInput } from './styles';
-import { format } from 'date-fns';
-
+import {
+  Container,
+  CardContainer,
+  Card,
+  TableContainer,
+  SearchContainer,
+  SearchInput,
+} from './styles';
 
 interface Transaction {
   id: string;
@@ -38,16 +44,41 @@ const Dashboard: React.FC = () => {
   const [balance, setBalance] = useState<Balance>({} as Balance);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
+  const handleBalance = (data: Transaction[]): Balance => {
+    const balanceCount = data.reduce(
+      (accumulator: Balance, { tipo, valor }: Transaction) => {
+        if (
+          tipo === 'Boleto' ||
+          tipo === 'Financiamento' ||
+          tipo === 'Aluguel'
+        ) {
+          accumulator.outcome += Number(valor);
+          accumulator.total -= Number(valor);
+        } else {
+          accumulator.income += Number(valor);
+          accumulator.total += Number(valor);
+        }
+
+        return accumulator;
+      },
+      {
+        income: 0,
+        outcome: 0,
+        total: 0,
+      },
+    );
+
+    return balanceCount;
+  };
+
   useEffect(() => {
     async function loadTransactions(): Promise<void> {
       const { data } = await api.get('/transactions');
 
-      const transactionsFormatted = data.map(
-        (transaction: Transaction) => ({
-          ...transaction,
-          data: format(new Date(transaction.data), 'dd-MM-yyyy')
-        }),
-      );
+      const transactionsFormatted = data.map((transaction: Transaction) => ({
+        ...transaction,
+        data: format(new Date(transaction.data), 'dd-MM-yyyy'),
+      }));
 
       const balanceCount = handleBalance(data);
 
@@ -65,43 +96,23 @@ const Dashboard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const filteredTransactions = transactions.filter(trans => trans.loja.toLowerCase().includes(searchTerm.toLowerCase()));
+    const filteredTransactions = transactions.filter(trans =>
+      trans.loja.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
     const updatedBalance = handleBalance(filteredTransactions);
     setBalance(updatedBalance);
   }, [searchTerm, transactions]);
 
-  const handleBalance = (data: any) => {
-    const balanceCount = data.reduce((accumulator: Balance, { tipo, valor }: Transaction) => {
-      if (tipo === 'Boleto' || tipo === 'Financiamento' || tipo === 'Aluguel') {
-        accumulator.outcome += Number(valor);
-        accumulator.total -= Number(valor);
-      } else {
-        accumulator.income += Number(valor);
-        accumulator.total += Number(valor);
-      }
-
-      return accumulator;
-      },
-      {
-        income: 0,
-        outcome: 0,
-        total: 0,
-      },
-    );
-
-    return balanceCount;
-  }
-
-  const handleTypeColorTransaction = (tipo: string) => {
+  const handleTypeColorTransaction = (tipo: string): string => {
     if (tipo === 'Boleto' || tipo === 'Financiamento' || tipo === 'Aluguel') {
-      return 'outcome'
-    } else {
-      return 'income';
+      return 'outcome';
     }
-  }
+    return 'income';
+  };
+
   return (
     <>
-      <Header size='large' />
+      <Header size="large" />
       <Container>
         <CardContainer>
           <Card>
@@ -116,7 +127,9 @@ const Dashboard: React.FC = () => {
               <p>Saídas</p>
               <img src={outcome} alt="Outcome" />
             </header>
-            <h1 data-testid="balance-outcome">{formatValue(balance.outcome)}</h1>
+            <h1 data-testid="balance-outcome">
+              {formatValue(balance.outcome)}
+            </h1>
           </Card>
           <Card total>
             <header>
@@ -129,7 +142,7 @@ const Dashboard: React.FC = () => {
 
         <SearchContainer>
           <SearchInput
-            type='text'
+            type="text"
             placeholder="Digite o nome de uma loja"
             onChange={event => setSearchTerm(event.target.value)}
           />
@@ -151,24 +164,35 @@ const Dashboard: React.FC = () => {
             </thead>
 
             <tbody>
-              {transactions?.filter(transaction => {
-                if (searchTerm === '') {
-                  return transaction;
-                } else if (transaction.loja.toLowerCase().includes(searchTerm.toLowerCase())) {
-                  return transaction;
-                }
-              }).map(transaction => (
-                <tr key={transaction.id}>
-                  <td className="title">{transaction.loja}</td>
-                  <td>{transaction.dono}</td>
-                  <td>{transaction.tipo}</td>
-                  <td>{transaction.data}</td>
-                  <td className={handleTypeColorTransaction(transaction.tipo)}>{formatValue(transaction.valor)}</td>
-                  <td>{formatCpf(transaction.cpf)}</td>
-                  <td>{transaction.cartao}</td>
-                  <td>{transaction.hora}</td>
-                </tr>
-              ))}
+              {transactions
+                ?.filter(transaction => {
+                  if (searchTerm === '') {
+                    return transaction;
+                  }
+                  if (
+                    transaction.loja
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase())
+                  ) {
+                    return transaction;
+                  }
+                })
+                .map(transaction => (
+                  <tr key={transaction.id}>
+                    <td className="title">{transaction.loja}</td>
+                    <td>{transaction.dono}</td>
+                    <td>{transaction.tipo}</td>
+                    <td>{transaction.data}</td>
+                    <td
+                      className={handleTypeColorTransaction(transaction.tipo)}
+                    >
+                      {formatValue(transaction.valor)}
+                    </td>
+                    <td>{formatCpf(transaction.cpf)}</td>
+                    <td>{transaction.cartao}</td>
+                    <td>{transaction.hora}</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </TableContainer>

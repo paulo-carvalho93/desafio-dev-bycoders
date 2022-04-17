@@ -3,11 +3,10 @@ import { useHistory } from 'react-router-dom';
 
 import filesize from 'filesize';
 
+import { toast } from 'react-toastify';
 import Header from '../../components/Header';
 import FileList from '../../components/FileList';
 import Upload from '../../components/Upload';
-
-import { toast } from 'react-toastify';
 
 import { Container, Title, ImportFileContainer, Footer } from './styles';
 

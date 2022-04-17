@@ -45,7 +45,6 @@ const Dashboard: React.FC = () => {
       const transactionsFormatted = data.map(
         (transaction: Transaction) => ({
           ...transaction,
-          valor: formatValue(transaction.valor),
           data: format(new Date(transaction.data), 'dd-MM-yyyy')
         }),
       );
@@ -55,7 +54,7 @@ const Dashboard: React.FC = () => {
       const balanceFormatted = {
         income: balanceCount.income,
         outcome: balanceCount.outcome,
-        total: Math.abs(balanceCount.total),
+        total: balanceCount.total,
       };
 
       setTransactions(transactionsFormatted);
@@ -64,6 +63,12 @@ const Dashboard: React.FC = () => {
 
     loadTransactions();
   }, []);
+
+  useEffect(() => {
+    const filteredTransactions = transactions.filter(trans => trans.loja.toLowerCase().includes(searchTerm.toLowerCase()));
+    const updatedBalance = handleBalance(filteredTransactions);
+    setBalance(updatedBalance);
+  }, [searchTerm, transactions]);
 
   const handleBalance = (data: any) => {
     const balanceCount = data.reduce((accumulator: Balance, { tipo, valor }: Transaction) => {
@@ -94,10 +99,9 @@ const Dashboard: React.FC = () => {
       return 'income';
     }
   }
-
   return (
     <>
-      <Header />
+      <Header size='large' />
       <Container>
         <CardContainer>
           <Card>
@@ -159,7 +163,7 @@ const Dashboard: React.FC = () => {
                   <td>{transaction.dono}</td>
                   <td>{transaction.tipo}</td>
                   <td>{transaction.data}</td>
-                  <td className={handleTypeColorTransaction(transaction.tipo)}>{transaction.valor}</td>
+                  <td className={handleTypeColorTransaction(transaction.tipo)}>{formatValue(transaction.valor)}</td>
                   <td>{formatCpf(transaction.cpf)}</td>
                   <td>{transaction.cartao}</td>
                   <td>{transaction.hora}</td>

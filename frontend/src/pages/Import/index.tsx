@@ -7,6 +7,8 @@ import Header from '../../components/Header';
 import FileList from '../../components/FileList';
 import Upload from '../../components/Upload';
 
+import { toast } from 'react-toastify';
+
 import { Container, Title, ImportFileContainer, Footer } from './styles';
 
 import alert from '../../assets/alert.svg';
@@ -35,8 +37,9 @@ const Import: React.FC = () => {
       await api.post('/transactions/import', data);
 
       history.push('/');
+      toast.success('Upload de arquivo feito com sucesso!');
     } catch (err) {
-      console.log(err.response.error);
+      toast.error('Ops! Algo deu errado durante o upload de arquivo!');
     }
   }
 

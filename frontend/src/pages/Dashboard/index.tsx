@@ -77,7 +77,6 @@ const Dashboard: React.FC = () => {
 
       const transactionsFormatted = data.map((transaction: Transaction) => ({
         ...transaction,
-        data: format(new Date(transaction.data), 'dd-MM-yyyy'),
       }));
 
       const balanceCount = handleBalance(data);
@@ -108,6 +107,15 @@ const Dashboard: React.FC = () => {
       return 'outcome';
     }
     return 'income';
+  };
+
+  const handleTimezoneDate = (date: string): string => {
+    const requiredReadinessNewDate = new Date(date);
+    const dateFixedTimeZone = new Date(
+      requiredReadinessNewDate.valueOf() +
+        requiredReadinessNewDate.getTimezoneOffset() * 60 * 1000,
+    );
+    return format(dateFixedTimeZone, 'dd-MM-yyyy');
   };
 
   return (
@@ -182,7 +190,7 @@ const Dashboard: React.FC = () => {
                     <td className="title">{transaction.loja}</td>
                     <td>{transaction.dono}</td>
                     <td>{transaction.tipo}</td>
-                    <td>{transaction.data}</td>
+                    <td>{handleTimezoneDate(transaction.data)}</td>
                     <td
                       className={handleTypeColorTransaction(transaction.tipo)}
                     >

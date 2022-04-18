@@ -110,10 +110,10 @@ const Dashboard: React.FC = () => {
   };
 
   const handleTimezoneDate = (date: string): string => {
-    const requiredReadinessNewDate = new Date(date);
+    const newTrasactionDate = new Date(date);
     const dateFixedTimeZone = new Date(
-      requiredReadinessNewDate.valueOf() +
-        requiredReadinessNewDate.getTimezoneOffset() * 60 * 1000,
+      newTrasactionDate.valueOf() +
+        newTrasactionDate.getTimezoneOffset() * 60 * 1000,
     );
     return format(dateFixedTimeZone, 'dd-MM-yyyy');
   };

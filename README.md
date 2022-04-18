@@ -25,7 +25,7 @@
   - [Application](#computer-web)
 - [How to run](#boom-how-to-run)
   - [Backend](#hammer-backend)
-  - [Web](#computer-web-1)
+  - [Frontend](#computer-web-1)
 
 
 ### :rocket: Technology
@@ -76,14 +76,6 @@ $ docker-compose up -d
 
 > Then create one database called: `tests` (in case you would like to run the tests).
 
-#### Migrations
-Remember to run the database migrations:
-```
-$ yarn typeorm migration:run
-```
-> See more information on [TypeORM Migrations](https://typeorm.io/#/migrations).
-
-
 ### .env
 Rename the `.env.example` in the root directory to `.env` then just update with your settings.
 
@@ -97,6 +89,21 @@ Rename the `.env.example` in the root directory to `.env` then just update with 
 |POSTGRES_PASSWORD|Postgres password.| `docker`
 |POSTGRES_DATABASE|Application's database name.| `bycoders`
 
+
+#### Migrations
+
+**FYI: Only for this part of Migrations, you need to set the key inside the .env file POSTGRES_HOST to `localhost` due to creating the new table, after that, you can change it again to `pg`**
+
+```
+# Change inside .env file POSTGRES_HOST key from `pg` to `localhost`
+$ yarn typeorm migration:run
+$ docker-compose down
+# Change inside .env file POSTGRES_HOST key from `localhost` to `pg`
+$ docker-compose up -d
+```
+> See more information on [TypeORM Migrations](https://typeorm.io/#/migrations).
+
+
 ```sh
   # API
   $ cd backend
@@ -106,11 +113,23 @@ Rename the `.env.example` in the root directory to `.env` then just update with 
   # Start Web Project
   $ yarn dev:server # or npm dev:server
 ```
-**URL: http://localhost:3333**
-
 **FYI: You don't need to run ```yarn dev:server``` if you are using docker-compose.**
 
-### :computer: Web
+**URL: http://localhost:3333**
+
+#### Tests
+
+```sh
+  # API
+  $ cd backend
+  # Running tests
+  $ yarn test # or npm run test
+```
+
+
+> For tests run create a database called `tests`.
+
+### :computer: Frontend
 
 
 ### .env
@@ -122,7 +141,7 @@ Rename the `.env.example` in the root directory to `.env` then just update with 
 
 
 ```sh
-  # API
+  # Frontend
   $ cd frontend
   # Installing project dependencies.
   $ yarn # or npm install
@@ -158,5 +177,11 @@ Request body:
 }
 ```
 
+## Tests
 
-
+```sh
+  # Frontend
+  $ cd frontend
+  # Running tests
+  $ yarn test # or npm run test
+```

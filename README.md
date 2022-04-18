@@ -117,7 +117,17 @@ $ docker-compose up -d
 
 **URL: http://localhost:3333**
 
+#### Tests
 
+```sh
+  # API
+  $ cd backend
+  # Running tests
+  $ yarn test # or npm run test
+```
+
+
+> For tests run create a database called `tests`.
 
 ### :computer: Frontend
 
@@ -131,7 +141,7 @@ Rename the `.env.example` in the root directory to `.env` then just update with 
 
 
 ```sh
-  # API
+  # Frontend
   $ cd frontend
   # Installing project dependencies.
   $ yarn # or npm install
@@ -170,7 +180,7 @@ Request body:
 ## Tests
 
 ```sh
-  # API
+  # Frontend
   $ cd frontend
   # Running tests
   $ yarn test # or npm run test
